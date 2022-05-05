@@ -270,8 +270,8 @@
             min-width: 630px; */
             min-height: 600px;
             max-height: 600px;
-            max-width: 800px
-            margin: 0 auto;
+            max-width: 800px;
+            min-width: 800px;
         }
 
         .modal-promcontent {
@@ -462,9 +462,10 @@
         }
 
         #myModal4 .modal-promimg img[src="/img/upload.png"] {
-            width: 300px;
-            min-height: 300px;
-            max-height: 580px;
+            max-width: 300px;
+			min-width: 300px;
+            min-height: 300px !important;
+            max-height: 300px !important;
             margin: 120px 250px 100px;
         }
 
@@ -474,6 +475,11 @@
             position: absolute;
             bottom: -100px;
             color: red;
+        }
+        
+
+        #myCarousel2 carousel-inner img{
+        	min-width: 800px;
         }
     </style>
 
@@ -1250,6 +1256,7 @@
                  })
 
              }
+        	 window.scrollTo(0,0);
                 }); //이벤트 처리 끝. 
                 	
         
@@ -1257,12 +1264,6 @@
 
 			
         	// 값 불러오는곳!
-        	
-        
-        		
-                
-        
-                
 
         console.log(data);
 			if(reset == true) {
@@ -1394,7 +1395,6 @@
 	                        
 	                    str += ` 
 	                        <a id="regist" href="` + list[i].bno +`"><i class="glyphicon glyphicon-comment"></i>댓글달기</a>
-	                        <a id="delete" href="` + list[i].bno +`"><i class="glyphicon glyphicon-remove"></i>삭제하기</a>
 	                    </div>
 	                </div>`;
 	                
@@ -1497,7 +1497,6 @@
                     
 	                    str += ` 
 	                        <a id="regist" href="` + list[i].bno +`"><i class="glyphicon glyphicon-comment"></i>댓글달기</a>
-	                        <a id="delete" href="` + list[i].bno +`"><i class="glyphicon glyphicon-remove"></i>삭제하기</a>
 	                    </div>
 	                </div>`;
 	                
@@ -1543,31 +1542,22 @@
 					if(data.filenum != 0){
 						
 					
-					
-					str += '<ol class="carousel-indicators">';
-                    str += '<li data-target="#myCarousel2" data-slide-to="0"></li>';
-                    if(data.filecnt === 2) {
-                    	str += '<li data-target="#myCarousel2" data-slide-to="1" class=""></li>';
-                    } else if(data.filecnt === 3) {
-                    	str += '<li data-target="#myCarousel2" data-slide-to="1" class=""></li>';
-                    	str += '<li data-target="#myCarousel2" data-slide-to="2" class=""></li>';
-                    }
-                    str += '</ol>';     
+    
                     
                     str += '<div class="carousel-inner" role="listbox">';
                     str += `<div class="item active">
-                        <img src="<c:url value='/loadimg/display/` + data.key + `/1'/>" alt="슬라이드1">
+                        <img src="<c:url value='/loadimg/display/` + data.key + `/1'/>"  alt="슬라이드1">
                     	</div>`;
                    	if(data.filecnt === 2) {
                    		str += `<div class="item">
-                            <img src="<c:url value='/loadimg/display/` + data.key + `/2'/>" alt="슬라이드2">
+                            <img src="<c:url value='/loadimg/display/` + data.key + `/2'/>"  alt="슬라이드2">
                         	</div>`;
                    	} else if(data.filecnt === 3) {
                    		str += `<div class="item">
-                            <img src="<c:url value='/loadimg/display/` + data.key + `/2'/>" alt="슬라이드2">
+                            <img src="<c:url value='/loadimg/display/` + data.key + `/2'/>"  alt="슬라이드2">
                         	</div>`;
                    		str += `<div class="item">
-                            <img src="<c:url value='/loadimg/display/` + data.key + `/3'/>" alt="슬라이드3">
+                            <img src="<c:url value='/loadimg/display/` + data.key + `/3'/>"  alt="슬라이드3">
                         	</div>`;
                    	}
                    	
@@ -1609,17 +1599,7 @@
 						
 						
 						
-						
-						str += '<ol class="carousel-indicators" >';
-	                    str += '<li data-target="#myCarousel2" data-slide-to="0"></li>';
-	                    if(data.filecnt === 2) {
-	                    	str += '<li data-target="#myCarousel2" data-slide-to="1"></li>';
-	                    } else if(data.filecnt === 3) {
-	                    	str += '<li data-target="#myCarousel2" data-slide-to="1"></li>';
-	                    	str += '<li data-target="#myCarousel2" data-slide-to="2"></li>';
-	                    }
-	                    str += '</ol>';     
-	                    
+
 	                    str += '<div class="carousel-inner" role="listbox">';
 	                    str += `<div class="item active">
 	                        <img src="<c:url value='/loadimg/display/` + data.key + `/1'/>" alt="슬라이드1">
@@ -1706,6 +1686,8 @@
 				'<c:url value="/promoReply/replyList/" />' + bno,
 				function(list) {
 					console.log(list);
+					let rwriter = [];
+					let rrno = [];
 					for(let i=0; i<list.length; i++) {
 						if(i === 0) {
 							str += '<div class="reply-content blinking">';
@@ -1722,6 +1704,7 @@
 	                            <p>` + list[i].writer + `</p>
 	                            
 	                            <a href="`+list[i].rno+`" id="rnodelete"><span style="float:right;" class="glyphicon glyphicon-remove"></span></a>
+	                            
 		                        </div>
 		                        <div class="content">` + 
 		                        	list[i].content + `
@@ -1738,6 +1721,7 @@
 		                            <p>` + list[i].writer + `</p>
 		                            
 		                            <a href="`+list[i].rno+`" id="rnodelete"><span style="float:right;" class="glyphicon glyphicon-remove"></span></a>
+		                          
 			                        </div>
 			                        <div class="content">` + 
 			                        	list[i].content + `
@@ -1746,8 +1730,19 @@
 		                    		</div>`;
 								
 							}
+							rwriter.push(list[i].writer);
+							rrno.push(list[i].rno);
 						}
 					$('#replyContentDiv').html(str);
+					
+					let loginuser = '${login.userid}';
+					let count = 0;
+					for(let writer of rwriter){	
+						if(writer !== loginuser){
+							$('a[href="' + rrno[count] + '"]').css('display','none');
+						}
+						count = count + 1;
+					}
 				}
 			); //end getJSON	
 		} //end 댓글 목록 불러오기
@@ -1826,14 +1821,14 @@
                     	</div>`;
                    	if(data.filecnt === 2) {
                    		str += `<div class="item">
-                            <img src="<c:url value='/loadimg/display/` + data.key + `/2'/>" alt="슬라이드2">
+                            <img src="<c:url value='/loadimg/display/` + data.key + `/2'/>"   alt="슬라이드2">
                         	</div>`;
                    	} else if(data.filecnt === 3) {
                    		str += `<div class="item">
-                            <img src="<c:url value='/loadimg/display/` + data.key + `/2'/>" alt="슬라이드2">
+                            <img src="<c:url value='/loadimg/display/` + data.key + `/2'/>"   alt="슬라이드2">
                         	</div>`;
                    		str += `<div class="item">
-                            <img src="<c:url value='/loadimg/display/` + data.key + `/3'/>" alt="슬라이드3">
+                            <img src="<c:url value='/loadimg/display/` + data.key + `/3'/>"    alt="슬라이드3">
                         	</div>`;
                    	}
                    	
@@ -2015,6 +2010,7 @@
                     console.log(event.target);
                     $(fileImg).attr("src", event.target.result);
                 	console.log($(fileImg).attr('src'));
+                	$(fileImg).css('min-width','800px');
                     filecount++;
                     makeImgWindow(filecount);
                 }

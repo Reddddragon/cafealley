@@ -142,7 +142,7 @@ float: right;
 			<span>
 				<a href="<c:url value='/'/>">Home</a> &#707; 
 				<a href="<c:url value='/shop/shopList'/>">Owner Mall</a>
-				<c:if test = "${pc.paging.condition != '' }">&#707; 
+				<c:if test = "${pc.paging.condition != 'all' }">&#707; 
 				<a href="<c:url value='/shop/shopList?condition=${pc.paging.condition}'/>" class="crt-page">
 				${pc.paging.condition =='beans' ?'원두' :
 				  pc.paging.condition == 'tea' ? '티/액상차' :
@@ -154,11 +154,9 @@ float: right;
 			</span>
 			<span>
 				<select id="order">
-					<option selected value="latest" ${pc.paging.keyword == 'lastest' ? 'selected' : '' } >최신순</option>
+					<option selected value="latest" ${pc.paging.keyword == 'latest' ? 'selected' : '' } >최신순</option>
 					<option value="oldest" ${pc.paging.keyword == 'oldest' ? 'selected' : '' } >오래된 순</option>
 					<option value="hit" ${pc.paging.keyword == 'hit' ? 'selected' : '' }>조회수 순</option>
-					<option value="pricelow" ${pc.paging.keyword == 'pricelow' ? 'selected' : '' }>가격 낮은 순</option>
-					<option value="pricehigh" ${pc.paging.keyword == 'pricehigh' ? 'selected' : '' }>가격 높은 순</option>
 				</select>
 			</span>
 			<hr>
@@ -167,13 +165,13 @@ float: right;
 				<form action="<c:url value='/shop/shopList'/>" method="get" name="catForm">
 				<p>종류</p>
 				<ul class="select-category">
-					<li><a href="" style="${pc.paging.condition == '' ? 'font-weight: 700;' : '' }">전체</a></li>
+					<li><a href="" style="${pc.paging.condition == '' || pc.paging.condition == 'all' ? 'font-weight: 700;' : '' }">전체</a></li>
 					<li><a href="beans" style="${pc.paging.condition == 'beans' ? 'font-weight: 700;' : '' }">원두</a></li>
 					<li><a href="tea" style="${pc.paging.condition == 'tea' ? 'font-weight: 700;' : '' }">티/액상차</a></li>
 					<li><a href="milk" style="${pc.paging.condition == 'milk' ? 'font-weight: 700;' : '' }">유제품</a></li>
 					<li><a href="syrup" style="${pc.paging.condition == 'syrup' ? 'font-weight: 700;' : '' }">시럽/소스</a></li>
 					<li><a href="powder" style="${pc.paging.condition == 'powder' ? 'font-weight: 700;' : '' }">파우더/농축액</a></li>
-					<li><a href="coffeemachine" style="${pc.paging.condition == 'cofeemachine' ? 'font-weight: 700;' : '' }">커피용품, 머신</a></li>
+					<li><a href="coffeemachine" style="${pc.paging.condition == 'coffeemachine' ? 'font-weight: 700;' : '' }">커피용품, 머신</a></li>
 				</ul>
 					<input type="hidden" name="condition" id="cfcondition" value="">
 					<input type="hidden" name="keyword" id="cfkeyword" value="">
@@ -196,31 +194,7 @@ float: right;
 				</li>
 			</c:forEach>				
 		</ul>
-		<div class="text-center">
-				<!-- 페이징 처리 부분  -->
-               	<form action="<c:url value='/shop/shopList'/>" name="pageForm">
-					<ul class="pagination" id="pagination">
-						<c:if test="${pc.prev}">
-							<li><a href="#" data-pageNum="${pc.beginPage-1}">이전</a></li>
-                           </c:if>
-                           <c:forEach var="curPage" begin="${pc.beginPage}" end="${pc.endPage}">
-							<li class="${pc.paging.pageNum == curPage ? 'active' : ''}">
-                           		<a href="#" data-pageNum="${curPage}">${curPage}</a>
-                           	</li>
-						</c:forEach>
-                           
-                          <c:if test="${pc.next}">
-                         		<li><a href="#" data-pageNum="${pc.endPage+1}">다음</a></li>
-                          </c:if>
-                      </ul>
-                      <!-- 페이지 관련 버튼을 클릭 시 같이 숨겨서 보낼 값 -->
-                      <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
-                      <input type="hidden" name="countPerPage" value="${pc.paging.countPerPage}">
-                      <input type="hidden" name="keyword" value="${pc.paging.keyword}">
-                      <input type="hidden" name="condition" value="${pc.paging.condition}">
-    			</form>
-				<!-- 페이징 처리 끝 -->
-			</div>
+
 	</section>
 	
 	<%@ include file="../include/footer.jsp" %>
@@ -239,21 +213,13 @@ float: right;
 	};
 	
 	$(function(){
-		// 페이징
-		$('#pagination').on('click', 'a', function(e) {
-    			e.preventDefault();
-    			console.log($(this));
-    			const value = $(this).data('pagenum');
-    			console.log(value);
-    			document.pageForm.pageNum.value = value;
-    			document.pageForm.submit();
-    		});
+
       
 		// 카테고리 클릭하면
 		$('.select-category').on('click', 'li>a', function(e){
 			e.preventDefault();
 			let condition = e.target.getAttribute('href');
-			let keyword = $('#order').val()
+			let keyword = $('#order').val();
 			console.log('카테 바꿔서 정해진 condition : ' + condition);
 			console.log('카테 바꿔서 정해진 keyword : ' + keyword);
 			$('#cfcondition').val(condition);
@@ -266,7 +232,7 @@ float: right;
 			let condition;
 			for(let a of document.querySelectorAll('.select-category > li > a')){
 				console.log(a.style.fontWeight);
-				if(a.style.fontWeight === 700){
+				if(a.style.fontWeight === '700'){
 					condition = a.getAttribute('href');
 				}
 			}

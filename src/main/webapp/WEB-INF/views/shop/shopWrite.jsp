@@ -130,7 +130,6 @@
 
         .product tr th,
         .product tr td {
-            border-bottom: 1px solid black;
             text-align: center;
             margin-bottom: 20px;
             line-height: 60px;
@@ -147,6 +146,13 @@
 
         .product tr td.large-cell {
             width: 150px;
+              overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 160px;
+  height: 81.5px;
+  display:block;
+  margin: 0px;
         }
 
         .prod-img input[type="file"],
@@ -304,7 +310,7 @@
 	                <div class="upper-bar clearfix">
 	                    <div class="divforright">
 	                        <button class="btn-cancel" onclick="history.back()">취소</button>
-	                        <button class="btn-regist" type="submit"> <span class="glyphicon glyphicon-ok"></span> 상품 등록완료</button>
+	                        <button class="btn-regist" type="button"> <span class="glyphicon glyphicon-ok"></span> 판매글 등록완료</button>
 	                    </div>
 	                </div>
 	                <div class="col-xs-6 prod-img">
@@ -353,7 +359,7 @@
 	                                    <tr>
 	                                        <td><img src="${pageContext.request.contextPath}/loadimg/display/${product.filenum}/1" alt="상품이미지" style="width: 50px; height: 50px;">
 	                                        </td>
-	                                        <td>${product.procategory}</td>
+	                                        <td id="procat">${product.procategory}</td>
 	                                        <td>${product.prono}</td>
 	                                        <td class="large-cell">${product.proname}</td>
 	                                        <td class="proprice reg">${product.proprice}</td>
@@ -381,7 +387,7 @@
 	                <div class="lower-bar clearfix">
 	                    <div class="divforright">
 	                        <button class="btn-cancel" onclick="history.back()">취소</button>
-	                        <button class="btn-regist" type="button"> <span class="glyphicon glyphicon-ok"></span> 상품 등록완료</button>
+	                        <button class="btn-regist" type="button"> <span class="glyphicon glyphicon-ok"></span> 판매글 등록완료</button>
 	                    </div>
 	                </div>
                 </form> <!-- end form  --> 
@@ -397,7 +403,19 @@
 
 	<script>
 		
-	
+		if($('#procat').text() == 'beans'){
+			$('#procat').text('원두');
+		}else if ($('#procat').text() == 'tea'){
+			$('#procat').text('티/액상차');
+		}else if ($('#procat').text() == 'syrup'){
+			$('#procat').text('시럽/소스');
+		}else if ($('#procat').text() == 'powder'){
+			$('#procat').text('파우더/농축액');
+		}else if ($('#procat').text() == 'milk'){
+			$('#procat').text('유제품');
+		}else if ($('#procat').text() == 'coffeemachine'){
+			$('#procat').text('커피머신');
+		}
 	
         // 이미지 파일 업로드시 이미지 파일 띄우게끔
 
@@ -452,8 +470,8 @@
         	// 등록 버튼 클릭시 유효성검사 후 submit해주기.
         	$('.btn-regist').on('click',function(e){
         		// 상품 게시글 메인 이미지 등록 해야함
-        		if($('#img').val = ''){
-        			alert('상품판매 게시글의 메인 이메지는 필수입니다.');
+        		if($('#img').val() == ''){
+        			alert('상품판매 게시글의 메인 이미지는 필수입니다.');
         			$('label[for="img"]').focus();
         			return;
         		// 상품 게시글 타이틀 등록해야함.

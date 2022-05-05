@@ -234,6 +234,8 @@
             min-width: 630px; */
             min-height: 600px;
             max-height: 600px;
+            min-width: 800px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
@@ -436,6 +438,10 @@
             color: red;
         }      
         
+        #nomargin{
+        	margin-top : 0px;
+        }
+        
 
 </style>
 
@@ -631,10 +637,7 @@
 								<!-- 비동기 방식으로 불러오고 있습니다. -->
 								
 	                        </div>
-	                        <div class="reply-form">
-	                                <textarea name="content" id="modal-reply-content" placeholder="댓글 입력"></textarea>
-	                                <input type="button" value="게시" id="replyRegBtn"></input>
-	                        </div>
+
 	
 	
 	
@@ -654,7 +657,7 @@
 	</section>
 	<!--하단 배너 2-->
 	<section>
-		<div class="container" style="margin-bottom: 50px">
+		<div class="container" id="nomargin" style="margin-bottom: 50px">
 			<div class="row">
 				<ul class="col-xs-12">
 					<li class="col-xs-6">
@@ -764,16 +767,7 @@
 					
 					if(data.filenum != 0){
 					
-					str += '<ol class="carousel-indicators">';
-	                str += '<li data-target="#myCarousel2" data-slide-to="0" class="active"></li>';
-	                if(data.filecnt === 2) {
-	                	str += '<li data-target="#myCarousel2" data-slide-to="1"></li>';
-	                } else if(data.filecnt === 3) {
-	                	str += '<li data-target="#myCarousel2" data-slide-to="1"></li>';
-	                	str += ' <li data-target="#myCarousel2" data-slide-to="2"></li>';
-	                }
-	                str += '</ol>';     
-	                
+		
 	                str += '<div class="carousel-inner" role="listbox">';
 	                str += `<div class="item active">
 	                    <img src="<c:url value='/loadimg/display/` + data.key + `/1'/>" alt="슬라이드1">
@@ -830,15 +824,7 @@
 						
 						
 						
-						str += '<ol class="carousel-indicators">';
-	                    str += '<li data-target="#myCarousel2" data-slide-to="0" class="active"></li>';
-	                    if(data.filecnt === 2) {
-	                    	str += '<li data-target="#myCarousel2" data-slide-to="1"></li>';
-	                    } else if(data.filecnt === 3) {
-	                    	str += '<li data-target="#myCarousel2" data-slide-to="1"></li>';
-	                    	str += ' <li data-target="#myCarousel2" data-slide-to="2"></li>';
-	                    }
-	                    str += '</ol>';     
+   
 	                    
 	                    str += '<div class="carousel-inner" role="listbox">';
 	                    str += `<div class="item active">
@@ -926,6 +912,8 @@
 				'<c:url value="/promoReply/replyList/" />' + bno,
 				function(list) {
 					console.log(list);
+					let rwriter = [];
+					let rrno = [];
 					for(let i=0; i<list.length; i++) {
 						if(i === 0) {
 							str += '<div class="reply-content blinking">';
@@ -966,8 +954,18 @@
 		                    		</div>`;
 								
 							}
+						rwriter.push(list[i].writer);
+						rrno.push(list[i].rno);
 						}
 					$('#replyContentDiv').html(str);
+					let loginuser = '${login.userid}';
+					let count = 0;
+					for(let writer of rwriter){	
+						if(writer !== loginuser){
+							$('a[href="' + rrno[count] + '"]').css('display','none');
+						}
+						count = count + 1;
+					}
 				}
 			); //end getJSON	
 		} //end 댓글 목록 불러오기
