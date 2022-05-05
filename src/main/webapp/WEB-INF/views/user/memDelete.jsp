@@ -119,7 +119,7 @@
 								console.log('비동기 success');
 								$('#userPw').attr('readonly', true);
 								alert('탈퇴되었습니다.');
-								location.href = 'http://localhost/cafealley/';
+								location.href = 'http://localhost/';
 							} else {
 								console.log('비동기 fail');
 								alert('비밀번호를 확인해 주세요.');

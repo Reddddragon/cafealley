@@ -515,15 +515,9 @@
 							 src="${pageContext.request.contextPath}/loadimg/display/${c.key}/1" alt="box"/>
 						</a>
 					</c:forEach>
-						
 				</ul>
 			</div>
 		</div>
-		
-		
-		
-		
-		
 	</section>
 
 	<!--하단 배너 1-->
@@ -585,7 +579,6 @@
 			</div>
 		</div>
 	</section>
-	
 	<section id="modalSection">
 		<!---------------------------------------------------------- 글 상세  Modal ---------------------------------------------------------->
 	    <div class="modal fade" id="modalContent">
@@ -659,9 +652,6 @@
 		            
 		</div>
 	</section>
-	
-	
-
 	<!--하단 배너 2-->
 	<section>
 		<div class="container" style="margin-bottom: 50px">
