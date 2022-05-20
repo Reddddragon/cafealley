@@ -160,6 +160,12 @@
 	<script>
 		$(function() {
 			
+			$('#userpw').keypress(function (e){
+				if(e.keyCode === 13){
+					$('#btnLogin').click();
+				}
+			});
+			
 			//네이버 로그인 API
 			//Client ID - pqVtFOpYyzJzRAPjYSYs
 			//Client Secret - BlS3zrgBho
